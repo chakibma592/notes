@@ -1,0 +1,101 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+	<meta charset="UTF-8">
+    <title>Liste des users - rôles </title>
+
+</head>
+<body>
+<div layout:fragment="breadcrumb">
+    <h1>Liste des rôles</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Gestion des utilisateurs</li>
+    </ol>
+</div>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <a class="box-title btn btn-primary" th:href="@{/role/form}">AJOUTER</a>
+                 
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                  
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover display" id="tab">
+                            <thead>
+								<tr>
+									<th>N</th>
+									<th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Utilisateur</a></a></th>
+									<th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Role</a></a></th>
+								
+									
+									<th>&nbsp;</th>
+								</tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="r,iter : ${data}">
+                                <td th:text="${iter.count}">1</td>
+                                <td th:text="${r.user.username}">1</td>
+                                <td th:text="${r.libelle}">1</td>
+                             
+                               
+                            
+                                <td>
+                                  
+									<a href="#" class="btn btn-success" title="Edit Data" th:href="@{/role/form(id=${r.id})}">
+											<i class="fa fa-edit"></i></a>
+									<a href="#" class="btn btn-danger" title="Delete Data" th:href="@{/role/delete(id=${r.id})}">
+											<i class="fa fa-trash"></i></a>			
+                                </td>
+                            </tr>
+
+                          
+                            </tbody>
+                        </table>
+                                                     
+                        <script>
+                      $(document).ready(function() {
+                    	    $('#tab').DataTable( {
+                    	    	dom: 'Blfrtip',
+                    	        buttons: [
+                    	        	
+                    	        	{ 
+                    	        	      extend: 'copy',
+                    	        	      text: 'Copier',
+                    	        	      extend: 'print',
+                    	        	      text: 'Imprimer',
+                    	        	      
+                    	        	   },
+                    	        	
+                    	             'csv', 'excel', 'pdf',
+                    	        ],
+                    	     "language": {
+                    	        	"sSearch": "Chercher:",
+                    	            "lengthMenu": "Afficher _MENU_ Lignes par page",
+                    	            "zeroRecords": "Liste de recherche Vide",
+                    	            "info": "Affichage page _PAGE_ de _PAGES_",
+                    	            "infoEmpty": "Liste de recherche Vide",
+                    	            "infoFiltered": "(filtré de _MAX_ total lignes)"
+                    	        } 
+                    	    } );
+                    	    
+                    	} ); 
+                   
+						</script>
+						
+                    </div>
+                </div>
+
+            
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

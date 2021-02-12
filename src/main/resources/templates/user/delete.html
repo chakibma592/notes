@@ -1,0 +1,61 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+	<meta charset="UTF-8">
+    <title>SUPPRIMER</title>
+</head>
+<body>
+<div layout:fragment="breadcrumb">
+    <h1>SUPPRIMER</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">supprimer</li>
+    </ol>
+</div>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">&nbsp;</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" th:object="${user}" method="post">
+
+               <div class="box-body">
+               <div class="form-group">
+                            <label for="username">Utilisateur:</label>
+                            <input type="text"
+                                   th:field="*{username}"
+                                   name="username" class="form-control" id="username" placeholder="username"  />
+                 </div>
+                <div class="form-group">            
+                            <label for="password">Mot de passe:</label>
+                            <input type="text"
+                                   th:field="*{password}"
+                                   name="password" class="form-control" id="password" placeholder="password"  />
+                 </div>
+              <!--    <div class="form-group">         
+                            <label for="role">Role:</label>
+                            <input type="text"
+                                   th:field="*{role.role}"
+                                   name="role" class="form-control" id="role"  />
+                   </div> -->
+                  <div class="form-group">         
+                         <div class="form-group">
+                            <a th:href="@{/user/list}" class="btn btn-default" role="button" title="Back list">
+                                <span aria-hidden="true"></span>ANNULER
+                            </a>
+                            <button type="submit" class="btn btn-danger" title="Delete">CONFIRMER</button>
+                        </div>
+                  </div>
+                  </div>
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

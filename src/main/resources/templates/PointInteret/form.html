@@ -1,0 +1,191 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>Point d'interet</title>
+<script type="text/javascript">
+	$(document).ready(function() {
+		if (window.location.href.indexOf('id') > 0) {
+			var tab1 = ddVersDms($('#latitude').val());
+			var tab2 = ddVersDms($('#longitude').val());
+			$('#latitude_degres').val(tab1[0]);
+			$('#latitude_minutes').val(tab1[1]);
+			$('#latitude_secondes').val(tab1[2]);
+			$('#longitude_degres').val(tab2[0]);
+			$('#longitude_minutes').val(tab2[1]);
+			$('#longitude_secondes').val(tab2[2]);
+		}
+	});
+</script>
+<style type="text/css">
+#latitude_degres, #longitude_degres {
+	width: 13%;
+}
+</style>
+<script type="text/javascript" th:src="@{/js/dms.js}"></script>
+
+</head>
+<body>
+	<div layout:fragment="breadcrumb">
+		<h1>GESTION DES POINTS D'INTERET</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+			<li class="active">Point d'interet</li>
+		</ol>
+	</div>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">&nbsp;</h3>
+					</div>
+					<form role="form" th:object="${pointinteret}" method="post">
+
+						<div class="box-body">
+							<div class="form-group ">
+								<label for="kode">Choisir la nature</label> <select
+									class="selectpicker form-control" data-live-search="true"
+									data-size="10" title="Selectionnez ..." th:field="*{naturepi}"
+									required>
+									<option th:each="p : ${naturepi}" th:value="${p.id}"
+										th:text="${p.libelle}">nature PI</option>
+								</select>
+
+
+								<div class="form-group">
+									<label for="description">Entrer le nouveau point
+										d'interet</label> <input type="text" class="form-control"
+										th:field="*{description}" id="description" required />
+
+
+
+
+								</div>
+
+								<div class="form-group">
+									<label for="description">Entrer la date de publication</label>
+									<input type="datetime-local" class="form-control"
+										th:field="*{datePublication}" id="description"  />
+
+
+
+
+								</div>
+
+
+
+
+								<div class="form-group">
+									<label for="adresse">Entrer l'adresse</label> <input
+										type="text" class="form-control" th:field="*{adresse}"
+										id="adresse" required />
+
+
+
+
+								</div>
+
+								<div class="form-group">
+									<label for="nomPI">Entrer le Nom du Point d'interet</label> <input
+										type="text" class="form-control" th:field="*{nomPI}"
+										id="nomPI" required />
+
+
+
+
+								</div>
+
+								<div class="form-group">
+									<label for="telephone">Entrer le téléphone</label> <input
+										type="number" class="form-control" th:field="*{telephone}"
+										id="telephone" required />
+
+
+
+
+								</div>
+
+
+
+								<!-- FORMULAIRE DMS  -->
+								<div class="box box-solid box-success">
+
+									<div class="box-body">
+										<input hidden="hidden" type="text" th:field="*{longitude}"
+											name="longitude" id="longitude" /> <input hidden="hidden"
+											type="text" th:field="*{latitude}" name="latitude"
+											id="latitude" />
+										<div id="app">
+											<div>
+												<div>
+													<h4>DMS (degrees, minutes, seconds)*</h4>
+													<div>
+														<label for="latitude">Latitude</label>
+														<div>
+															<label class="radio-inline"> <input type="radio"
+																onchange="calLat()" name="latnordsud" value="nord"
+																id="nord" checked /> N
+															</label> <label class="radio-inline"> <input type="radio"
+																onchange="calLat()" name="latnordsud" value="sud"
+																id="sud" /> S
+															</label> <input class="sexagesimal" onkeyup="calLat()" min="0"
+																id="latitude_degres" required type="number"> <label
+																for="latitude_degres">&deg;</label> <input
+																class="sexagesimal" onkeyup="calLat()" max="59" min="0"
+																id="latitude_minutes" required type="number"> <label
+																for="latitude_minutes">'</label> <input
+																class="sexagesimalsec" onkeyup="calLat()" max="59"
+																min="0" id="latitude_secondes" type="number"> <label
+																for="latitude_secondes">''</label>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label for="longitude">Longitude</label>
+														<div>
+															<label class="radio-inline"> <input
+																onchange="calLng()" type="radio" name="lngestouest"
+																value="est" id="est" /> E
+															</label> <label class="radio-inline"> <input
+																onchange="calLng()" type="radio" name="lngestouest"
+																value="ouest" id="ouest" checked /> W
+															</label> <input class="sexagesimal" onkeyup="calLng()" min="0"
+																id="longitude_degres" type="number"> <label
+																for="longitude_degres">&deg;</label> <input
+																class="sexagesimal" max="59" min="0"
+																id="longitude_minutes" onkeyup="calLng()" required
+																type="number"> <label for="longitude_minutes">'</label>
+															<input class="sexagesimalsec" onkeyup="calLng()" max="59"
+																min="0" id="longitude_secondes" required type="number">
+															<label for="longitude_secondes">''</label>
+														</div>
+													</div>
+
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+								<!-- FORMULAIRE DMS  -->
+
+								<div class="form-group">
+									<a th:href="@{/PointInteret/list}" class="btn btn-default"
+										role="button" title="Back list"> <span aria-hidden="true"></span>Annuler
+									</a>
+									<button class="box-title btn btn-primary" title="Save Data">Confirmer</button>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
