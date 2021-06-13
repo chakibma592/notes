@@ -1,4 +1,4 @@
-package com.gestionnote.entities.carpool;
+package com.gestionnote.entities;
 
 import java.io.Serializable;
 import java.util.Date;

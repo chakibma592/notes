@@ -17,9 +17,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gestionnote.dao.PromotionRepository;
-import com.gestionnote.dao.carpool.CityRepository;
 import com.gestionnote.entities.Promotion;
-import com.gestionnote.entities.carpool.City;
+
 
 @Controller
 public class PromotionController {
