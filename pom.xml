@@ -8,8 +8,8 @@
 		<version>2.2.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.comtrans</groupId>
-	<artifactId>PORTAILCOMTRANS</artifactId>
+	<groupId>com.inpt.note</groupId>
+	<artifactId>PORTAILINPT</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PORTAILCOMTRANS</name>
 	<description>Demo project for Spring Boot</description>

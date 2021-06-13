@@ -1,0 +1,114 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+	<meta charset="UTF-8">
+    <title>Liste des libelés de promotions</title>
+
+    <style>
+        .noWrapColumn {
+            white-space: nowrap !important;
+        }
+    </style>
+   
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    	var rows = $('.table tbody tr');
+    	for(var i=0;i<rows.length;i++)
+    		{
+  				var col = $(rows[i]).find(':nth-child(4)');
+  				var col2 = $(rows[i]).find(':nth-child(5)');
+  				$(col).html(ddVersDms2($(col).html()));
+  				$(col2).html(ddVersDms2($(col2).html()));
+    		} 
+    });
+</script> 
+</head>
+<body class="sidebar-collapse skin-blue hold-transition fuelux sidebar-mini">
+<div layout:fragment="breadcrumb">
+    <h1>Liste des libellé de promotions</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Gestion des libellés de promotions</li>
+    </ol>
+</div>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <a class="box-title btn btn-primary" th:href="@{/promotions/form}">AJOUTER</a>
+
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                 
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tab">
+                            <thead>
+								<tr>
+									<th>N</th>
+									<th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Libellé</a></a></th>
+									<th>&nbsp;</th>
+								</tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="pi,iter : ${promotion}">
+                                <td th:text="${iter.count}">1</td>
+                                <td th:text="${pi.promotionname}">1</td>
+                               
+                                
+                            
+                                <td>
+                                  
+									<a href="#" class="btn btn-success" title="Edit Data" th:href="@{/promotions/form(id=${pi.id})}">
+											<i class="fa fa-edit"></i></a>
+									<a href="#" class="btn btn-danger" title="Delete Data" th:href="@{/promotions/delete(id=${pi.id})}">
+											<i class="fa fa-trash"></i></a>			
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        
+                            <script>
+                      $(document).ready(function() {
+                    	    $('#tab').DataTable( {
+                    	    	dom: 'Blfrtip',
+                    	        buttons: [
+                    	        	
+                    	        	{ 
+                    	        	      extend: 'copy',
+                    	        	      text: 'Copier',
+                    	        	      extend: 'print',
+                    	        	      text: 'Imprimer',
+                    	        	      
+                    	        	   },
+                    	        	
+                    	             'csv', 'excel', 'pdf',
+                    	        ],
+                    	     "language": {
+                    	        	"sSearch": "Chercher:",
+                    	            "lengthMenu": "Afficher _MENU_ Lignes par page",
+                    	            "zeroRecords": "Liste de recherche Vide",
+                    	            "info": "Affichage page _PAGE_ de _PAGES_",
+                    	            "infoEmpty": "Liste de recherche Vide",
+                    	            "infoFiltered": "(filtré de _MAX_ total lignes)"
+                    	        } 
+                    	    } );
+                    	    
+                    	} ); 
+                   
+						</script>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

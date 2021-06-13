@@ -245,7 +245,7 @@
 				<!-- Sidebar user panel (optional) -->
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="/img/vue3.jpeg" />
+						<img src="/img/logo.png" />
 					</div>
 				</div>
 				<!--  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -267,9 +267,13 @@
 								class="fa fa-angle-left pull-right"></i>
 						</span> </a>
 						<ul class="treeview-menu">
-							<li><a th:href="@{/NaturePI/list}">Nature du Point d'interet</a></li>
-							<li><a th:href="@{/PointInteret/list}">Point d'interet</a></li>
-							<li><a th:href="@{/picture/list}">Pictures</a></li>
+							<li><a th:href="@{/modules/list}">Modules</a></li>
+							<li><a th:href="@{/matieres/list}">Matières</a></li>
+							<li><a th:href="@{/promotions/list}">Promotions</a></li>
+							<li><a th:href="@{/semestres/list}">Semestre</a></li>
+							<li><a th:href="@{/year/list}">Années universitaires</a></li>
+							<li><a th:href="@{/notes/list}">Notes</a></li>
+							
 						
 						</ul></li>
 
@@ -291,7 +295,7 @@
 		<!-- Main Footer -->
 		<footer class="main-footer no-print">
 
-			<strong> &copy;ENSAK <script>
+			<strong> &copy;INPT <script>
 				new Date().getFullYear() > 2019
 						&& document.write("-" + new Date().getFullYear());
 			</script>
