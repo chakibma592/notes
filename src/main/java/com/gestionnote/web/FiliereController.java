@@ -42,7 +42,7 @@ public class FiliereController {
 			filiere= new Filiere();
         }
 		m.addAttribute("filiere", filiere);
-		return "filiere/form";
+		return "filieres/form";
     }
 
 

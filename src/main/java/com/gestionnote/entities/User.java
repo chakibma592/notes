@@ -25,11 +25,8 @@ import lombok.ToString;
 @Entity
 @ToString
 @Data @AllArgsConstructor @NoArgsConstructor
-@Table(	name = "users", 
-uniqueConstraints = { 
-	@UniqueConstraint(columnNames = "username"),
-	@UniqueConstraint(columnNames = "email") 
-})
+@Table(	name = "users")
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements Serializable {
 	

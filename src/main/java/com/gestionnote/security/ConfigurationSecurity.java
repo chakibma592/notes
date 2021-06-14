@@ -24,9 +24,9 @@ public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
 		auth.jdbcAuthentication().dataSource(dataSource)
 
 				.usersByUsernameQuery(
-						"Select username as principal, password as credentials, actived from user where username = ?")
+						"Select username as principal, password as credentials, actived from users where username = ?")
 				.authoritiesByUsernameQuery(
-						"Select u.username as principal, r.libelle as role from user u, role r  where  u.id=r.id_user and u.username = ?")
+						"Select u.username as principal, r.libelle as role from users u, role r  where  u.id=r.id_user and u.username = ?")
 
 				.rolePrefix("ROLE_").passwordEncoder(bCryptPasswordEncoder());
 
