@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +25,11 @@ import lombok.ToString;
 @Entity
 @ToString
 @Data @AllArgsConstructor @NoArgsConstructor
+@Table(	name = "users", 
+uniqueConstraints = { 
+	@UniqueConstraint(columnNames = "username"),
+	@UniqueConstraint(columnNames = "email") 
+})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User implements Serializable {
 	
