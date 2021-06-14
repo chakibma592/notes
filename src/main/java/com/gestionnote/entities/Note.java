@@ -21,12 +21,12 @@ public class Note implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private double notesession1;
+	private double notesession2;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idyear")
 	private AnneeUniversitaire year;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idsession")
-	private Session session;
+	
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmatiere")
 	private Matiere matiere;
@@ -68,11 +68,17 @@ public class Note implements Serializable{
 	public void setYear(AnneeUniversitaire year) {
 		this.year = year;
 	}
-	public Session getSession() {
-		return session;
+	public double getNotesession1() {
+		return notesession1;
 	}
-	public void setSession(Session session) {
-		this.session = session;
+	public void setNotesession1(double notesession1) {
+		this.notesession1 = notesession1;
 	}
-    
+	public double getNotesession2() {
+		return notesession2;
+	}
+	public void setNotesession2(double notesession2) {
+		this.notesession2 = notesession2;
+	}
+
 }
