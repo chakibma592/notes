@@ -1,10 +1,6 @@
 package com.gestionnote.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,10 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,11 +44,9 @@ public class User implements Serializable {
 	private String email;
 	private boolean actived;
 	private String psc;
-	@ToString.Exclude
-	@OneToMany(targetEntity=Role.class,mappedBy="user",cascade=CascadeType.REMOVE,fetch=FetchType.LAZY)
-    private List<Role> roles  = new ArrayList<>();
-
-
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_role")
+    private Role role;
 
 
 
@@ -159,19 +152,7 @@ public class User implements Serializable {
 
 
 
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-
-
-
-
-
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+	
 
 
 
@@ -311,6 +292,26 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+
+
+
+
+
+	public Role getRole() {
+		return role;
+	}
+
+
+
+
+
+
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	

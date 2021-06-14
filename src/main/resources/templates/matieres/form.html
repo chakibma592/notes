@@ -1,0 +1,77 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+
+<title>Ajouer Matière</title>
+
+<style type="text/css">
+#latitude_degres, #longitude_degres {
+	width: 13%;
+}
+</style>
+
+
+</head>
+<body>
+	<div layout:fragment="breadcrumb">
+		<h1>GESTION DES MATIERE</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+			<li class="active">Matiere</li>
+		</ol>
+	</div>
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="box box-primary">
+					<div class="box-header with-border">
+						<h3 class="box-title">&nbsp;</h3>
+					</div>
+					<form role="form" th:object="${matiere}" method="post">
+
+						<div class="box-body">
+							
+					<div class="box-body">
+							<div class="form-group ">
+								<label for="kode">Choisir le module</label> <select
+									class="selectpicker form-control" data-live-search="true"
+									data-size="10" title="Selectionnez ..." th:field="*{module}"
+									required>
+									<option th:each="p : ${module}" th:value="${p.id}"
+										th:text="${p.modulename}">nature PI</option>
+								</select>
+</div>
+								<div class="form-group">
+									<label for="matierename">Entrer le nouveau libellé
+										</label> <input type="text" class="form-control"
+										th:field="*{matierename}" id="matierename" required />
+
+
+
+
+								</div>
+
+
+
+
+
+								
+
+								<div class="form-group">
+									<a th:href="@{/matieres/list}" class="btn btn-default"
+										role="button" title="Back list"> <span aria-hidden="true"></span>Annuler
+									</a>
+									<button class="box-title btn btn-primary" title="Save Data">Confirmer</button>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -37,9 +37,7 @@ public class Role implements Serializable {
 	private int id;	
 	private String libelle;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
-    private User user;
+	
 
 	
 	
