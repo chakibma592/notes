@@ -1,0 +1,124 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+	<title>user</title>
+	
+</head>
+<body  class="sidebar-collapse skin-blue hold-transition fuelux sidebar-mini">
+<div layout:fragment="breadcrumb">
+    <h1>Liste des Etudiants</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Liste des Etudiants</li>
+    </ol>
+</div>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <a class="box-title btn btn-primary" th:href="@{/students/form}">AJOUTER</a>
+
+				<!-- Barre de recherche  -->
+				
+     
+                </div>
+
+
+                <!-- /.box-header -->
+                <div class="box-body">
+
+
+                    <div class="table-responsive">
+                        <table class="display" id="tab" >
+                            <thead>
+                            <tr>
+                                <th>N</th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Promotion</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Filière</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >N° Appogée</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >CNE</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Nom</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >prenom</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >email</a></a></th>
+                                <th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >Gsm</a></a></th>
+								<th><a class="fa fa-fw fa-sort"><a class="sorted" title="Trier" >CIN</a></a></th>
+                      
+          
+                                
+                              
+                               
+                                <th>&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="st,iter : ${student}">
+                                <td th:text="${iter.count}">1</td>
+                                <td th:text="${st.promotion.promotionname}"></td>
+                                <td th:text="${st.filiere.filierename}"></td>
+                                <td th:text="${st.id}"></td>
+                                <td th:text="${st.codemassar}"></td>
+                                <td th:text="${st.firstname}"></td>
+                                <td th:text="${st.lastname}"></td>
+                                <td th:text="${st.email}"></td>
+                                <td th:text="${st.gsm}"></td>
+                                <td th:text="${st.cin}"></td>
+                              
+                           
+                               
+                                <td>
+
+										<a href="#" class="btn btn-success" title="Editer" th:href="@{/students/form(id=${st.id})}">
+											<i class="fa fa-edit"></i>
+										</a>
+										<a href="#" class="btn btn-danger" title="Supprimer" th:href="@{/students/delete(id=${st.id})}">
+											<i class="fa fa-trash"></i>
+										</a> 
+									
+                                </td>
+                            </tr>
+                       
+                            </tbody>
+                        </table>
+                        
+                        <script>
+                      $(document).ready(function() {
+                    	    $('#tab').DataTable( {
+                    	    	dom: 'Blfrtip',
+                    	        buttons: [
+                    	        	
+                    	        	{ 
+                    	        	      extend: 'copy',
+                    	        	      text: 'Copier',
+                    	        	      extend: 'print',
+                    	        	      text: 'Imprimer',
+                    	        	      
+                    	        	   },
+                    	        	
+                    	             'csv', 'excel', 'pdf',
+                    	        ],
+                    	     "language": {
+                    	        	"sSearch": "Chercher:",
+                    	            "lengthMenu": "Afficher _MENU_ Lignes par page",
+                    	            "zeroRecords": "Liste de recherche Vide",
+                    	            "info": "Affichage page _PAGE_ de _PAGES_",
+                    	            "infoEmpty": "Liste de recherche Vide",
+                    	            "infoFiltered": "(filtré de _MAX_ total lignes)"
+                    	        } 
+                    	    } );
+                    	    
+                    	} ); 
+                   
+						</script>
+						
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
