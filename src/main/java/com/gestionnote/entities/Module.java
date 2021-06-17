@@ -11,10 +11,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+
 @Entity
 @Table(name = "modules")
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@Data 
+@ToString
 public class Module implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -40,6 +57,8 @@ public class Module implements Serializable{
 	public void setSemester(Semestre semester) {
 		this.semester = semester;
 	}
+    
+
     
     
 }

@@ -26,7 +26,7 @@ public class ConfigurationSecurity extends WebSecurityConfigurerAdapter {
 				.usersByUsernameQuery(
 						"Select username as principal, password as credentials, actived from users where username = ?")
 				.authoritiesByUsernameQuery(
-						"Select u.username as principal, r.libelle as role from users u, role r  where  u.id=r.id_user and u.username = ?")
+						"Select u.username as principal, r.libelle as role from users u, role r  where  u.id_role=r.id and u.username = ?")
 
 				.rolePrefix("ROLE_").passwordEncoder(bCryptPasswordEncoder());
 

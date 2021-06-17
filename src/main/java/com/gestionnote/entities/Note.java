@@ -26,7 +26,15 @@ public class Note implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idyear")
 	private AnneeUniversitaire year;
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idmodule")
+	private Module module;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idpromotion")
+	private Promotion promotion;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idfiliere")
+	private Module filiere;
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idmatiere")
 	private Matiere matiere;
@@ -80,5 +88,24 @@ public class Note implements Serializable{
 	public void setNotesession2(double notesession2) {
 		this.notesession2 = notesession2;
 	}
+	public Module getModule() {
+		return module;
+	}
+	public void setModule(Module module) {
+		this.module = module;
+	}
+	public Promotion getPromotion() {
+		return promotion;
+	}
+	public void setPromotion(Promotion promotion) {
+		this.promotion = promotion;
+	}
+	public Module getFiliere() {
+		return filiere;
+	}
+	public void setFiliere(Module filiere) {
+		this.filiere = filiere;
+	}
+	
 
 }

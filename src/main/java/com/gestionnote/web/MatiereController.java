@@ -1,5 +1,8 @@
 package com.gestionnote.web;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionnote.dao.MatiereRepository;
 import com.gestionnote.dao.ModuleRepository;
 import com.gestionnote.entities.Matiere;
@@ -83,4 +89,5 @@ public class MatiereController {
         status.setComplete();
 		return "redirect:/matieres/list";
     }
+
 }
