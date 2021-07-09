@@ -86,14 +86,11 @@ public class NoteController {
 	        	System.err.println(errors.toString());
 	            return "notes/form";
 	        }	
-	        java.util.List<Note> all = noteRepository.Exists(note.getFiliere().getId(), note.getSemestre().getId(), note.getStudent().getId(), note.getPromotion().getId(), note.getMatiere().getId());
-	        if(all.size()==0) {
+	        
 	        noteRepository.save(note);
 	        status.setComplete();
-	        return "redirect:/notes/form/";}
-	        else {
-	        	return "redirect:\403";
-	        }
+	        return "redirect:/notes/form/";
+	      
 	    }
 		@GetMapping("/listmatieres")
 		public @ResponseBody String getStates(@RequestParam Long moduleId)
