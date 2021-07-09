@@ -11,8 +11,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,8 +22,15 @@ import com.gestionnote.dao.FiliereRepository;
 import com.gestionnote.dao.PromotionRepository;
 import com.gestionnote.dao.RoleDao;
 import com.gestionnote.dao.StudentRepository;
+import com.gestionnote.entities.Matiere;
 import com.gestionnote.entities.Student;
 import com.gestionnote.entities.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 @Controller
 public class EtudiantController {
@@ -33,8 +42,7 @@ public class EtudiantController {
     @Autowired
     private FiliereRepository filiereRepository;
     @Autowired
-    private PromotionRepository promotionRepository;
-    
+    private PromotionRepository promotionRepository;    
     @Autowired
     private BCryptPasswordEncoder bcrypt;
 
@@ -104,4 +112,24 @@ public class EtudiantController {
         status.setComplete();
         return "redirect:/students/list";
     }
+    @GetMapping("/students/loadStudentByFiliereAndPromotion/{idf}/{idp}")
+	@ResponseBody
+	public String loadStatesByCountry(@PathVariable("idf") Long idf,@PathVariable("idp") Long idp) {
+		//Gson gson = new Gson();
+		java.util.List<Student> all = studentRepository.findByFilierePromotion(idf, idp);
+        Gson gson = new GsonBuilder().registerTypeAdapter(Student.class, new JsonSerializer <Student>() {
+           @Override
+			public JsonElement serialize(Student student, java.lang.reflect.Type type,
+				JsonSerializationContext context) {
+				JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", student.getId());
+                jsonObject.addProperty("firstname", student.getFirstname());
+                jsonObject.addProperty("lastname", student.getLastname());
+                jsonObject.addProperty("codemassar", student.getCodemassar());
+                return jsonObject;
+			}
+        }).create();
+      
+		return gson.toJson(all);
+	}
 }

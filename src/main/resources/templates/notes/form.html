@@ -1,13 +1,18 @@
 <!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script th:src="@{/js/cascade.js}"></script>
+
 <head>
 <meta charset="UTF-8">
     <title>Notes</title>
 
 </head>
-
+								<script >
+function getMatiere()
+{
+	alert('test');
+		   
+	   }
+	   </script>
 <body>
 <div layout:fragment="breadcrumb">
     <h1></h1>
@@ -29,17 +34,17 @@
                     <div class="box-body">
                         <div class="form-group">
               
-				<div class="form-group ">
+		<div class="form-group ">
 								<label for="semestre">Choisir le semestre</label> <select
 									class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{semestre}"
 									required>
 									<option th:each="p : ${semestre}" th:value="${p.id}"
-										th:text="${p.semestrename}">Semestre</option>
+										th:text="${p.semestrename}">Promotion</option>
 								</select>
 						</div>
 						<div class="form-group ">
-								<label for="promotion">Choisir la promotion</label> <select
+								<label for="promotion">Choisir la promotion</label> <select id="promotion"
 									class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{promotion}"
 									required>
@@ -48,7 +53,7 @@
 								</select>
 						</div>
 						<div class="form-group ">
-								<label for="filiere">Choisir la filière</label> <select
+								<label for="filiere">Choisir la filière</label> <select id="filiere" onchange="getStudent()"
 									class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{filiere}"
 									required>
@@ -57,7 +62,7 @@
 								</select>
 						</div>
 						<div class="form-group ">
-								<label for="year">Choisir l'année uiversitaire</label> <select
+								<label for="year">Choisir l'année universitaire</label> <select
 									class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{year}"
 									required>
@@ -66,32 +71,34 @@
 								</select>
 						</div>
 									<div class="form-group ">
-								<label for="module">Choisir le module</label> <select id="module"
+								<label for="module">Choisir le module</label> <select id="module" onchange="getMatiere()"
 									class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{module}"
 									required>
-									<option th:each="p : ${module}" th:value="${p.id}"
+									<option  th:each="p : ${module}" th:value="${p.id}"
 										th:text="${p.modulename}">Module</option>
 								</select>
+
 						</div>
-					
-						<div class="form-group ">
-								<label for="matiere">Choisir la Matière</label> <select
-									class="selectpicker form-control" data-live-search="true"
+						
+						
+					</select>
+					<div class="form-group ">
+								<label for="matiere">Choisir la Matière</label> 
+								<select
+									id ="matiere" class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{matiere}"
 									required>
-									<option th:each="p : ${matiere}" th:value="${p.id}"
-										th:text="${p.matierename}">Matière</option>
-								</select>
+									</select>
 						</div>
 							<div class="form-group ">
-								<label for="student">Choisir l'etudiant</label> <select
-									class="selectpicker form-control" data-live-search="true"
+								<label for="user">Choisir l'etudiant</label> 
+								<select
+									id ="student" class="selectpicker form-control" data-live-search="true"
 									data-size="10" title="Selectionnez ..." th:field="*{student}"
 									required>
-									<option th:each="p : ${student}" th:value="${p.id}"
-										th:text="${p.firstname}">Etudiant</option>
-								</select>
+									</select>
+						</div>
 						</div>
                         <div class="form-group">
                             
@@ -102,7 +109,6 @@
                         	</div>
                             </div>
          
-							
                         <div class="form-group">
                             <a th:href="@{/home}" class="btn btn-default" role="button" title="Back list">
                                 <span aria-hidden="true"></span> Retour
@@ -112,13 +118,74 @@
                     </div>
                     </div>
 
+<script >
+function getMatiere()
+{
+	var categoryId =  $("#module").val()
+	$.ajax({
+        url: '/matieres/loadMatiereByModule/'+categoryId,
+        type: 'GET',
+        contentType : "application/json",
+        dataType : 'json',
+        async: false,
+        cache: false,
+        success: function (data) {
+        	
+        	var slctSubcat=$('#matiere'), option="";
+            slctSubcat.empty();
+            for(var i=0; i<data.length; i++){
+            
+                option = option + "<option value='"+data[i].id + "'>"+data[i].matierename + "</option>";
+            }
+            slctSubcat.append(option);
+            $('#matiere').selectpicker('refresh');
+        },
+        error:function(){
+            alert("error");
+        }
+       
+	});
+		   
+	   }
+	   </script>
+	   <script >
+function getStudent()
+{
+	var promotionId =  $("#promotion").val()
+	var filiereId =  $("#filiere").val()
+	$.ajax({
+        url: '/students/loadStudentByFiliereAndPromotion/'+filiereId+'/'+promotionId,
+        type: 'GET',
+        contentType : "application/json",
+        dataType : 'json',
+        async: false,
+        cache: false,
+        success: function (data) {
+        	
+        	var slctSubcat=$('#student'), option="";
+            slctSubcat.empty();
+            for(var i=0; i<data.length; i++){
+            	
+                option = option + "<option value='"+data[i].id + "'>"+data[i].codemassar+": "+data[i].firstname+" " + data[i].lastname+"</option>";
+            }
+            slctSubcat.append(option);
+            $('#student').selectpicker('refresh');
+        },
+        error:function(){
+            alert("error");
+        }
+       
+	});
+		   
+	   }
+	   </script>
+	 
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-		
-	</script>
+
 </body>
+
 </html>

@@ -14,7 +14,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
@@ -25,6 +28,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionnote.dao.MatiereRepository;
 import com.gestionnote.dao.ModuleRepository;
 import com.gestionnote.entities.Matiere;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
+import aj.org.objectweb.asm.Type;
 
 @Controller
 public class MatiereController {
@@ -73,8 +84,6 @@ public class MatiereController {
 		return new ModelMap("matiere", matiere);
     }
 
-
-
 	@PostMapping("/matieres/delete")
 	public Object delete(@ModelAttribute Matiere matiere, SessionStatus status) {
         try {
@@ -89,5 +98,23 @@ public class MatiereController {
         status.setComplete();
 		return "redirect:/matieres/list";
     }
-
+	
+	@GetMapping("/matieres/loadMatiereByModule/{id}")
+	@ResponseBody
+	public String loadStatesByCountry(@PathVariable("id") Long id) {
+		//Gson gson = new Gson();
+		java.util.List<Matiere> all = matiereRepository.findByModuleId(id);
+        Gson gson = new GsonBuilder().registerTypeAdapter(Matiere.class, new JsonSerializer <Matiere>() {
+           @Override
+			public JsonElement serialize(Matiere matiere, java.lang.reflect.Type type,
+				JsonSerializationContext context) {
+				JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", matiere.getId());
+                jsonObject.addProperty("matierename", matiere.getMatierename());
+                return jsonObject;
+			}
+        }).create();
+      
+		return gson.toJson(all);
+	}
 }

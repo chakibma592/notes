@@ -14,10 +14,13 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "notes")
 public class Note implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -40,10 +43,13 @@ public class Note implements Serializable{
 	private Matiere matiere;
     @ManyToOne(fetch = FetchType.LAZY)
    	@JoinColumn(name = "idstudent")
-   	private Student student;
+   	private User student;
     @ManyToOne(fetch = FetchType.LAZY)
    	@JoinColumn(name = "idsemestre")
-   	private Student semestre;
+   	private Semestre semestre;
+    public Note() {
+		super();
+	}
 	public Long getId() {
 		return id;
 	}
@@ -58,16 +64,18 @@ public class Note implements Serializable{
 	public void setMatiere(Matiere matiere) {
 		this.matiere = matiere;
 	}
-	public Student getStudent() {
+	
+	
+	public User getStudent() {
 		return student;
 	}
-	public void setStudent(Student student) {
+	public void setStudent(User student) {
 		this.student = student;
 	}
-	public Student getSemestre() {
+	public Semestre getSemestre() {
 		return semestre;
 	}
-	public void setSemestre(Student semestre) {
+	public void setSemestre(Semestre semestre) {
 		this.semestre = semestre;
 	}
 	public AnneeUniversitaire getYear() {

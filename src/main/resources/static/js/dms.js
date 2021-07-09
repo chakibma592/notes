@@ -1,4 +1,13 @@
- function ddVersDms2(obj) {
+window.onload = function() {
+    if (window.jQuery) {  
+        // jQuery is loaded  
+        alert("Yeah!");
+    } else {
+        // jQuery is not loaded
+        alert("Doesn't Work");
+    }
+} 
+function ddVersDms2(obj) {
 	  	var str = obj.toString().replace('-','');
 	   	var tab = str.split('.');
 		var deg = tab[0];
@@ -157,3 +166,28 @@
 	     tabRt[2]=sec;
 	     return tabRt;
 	    }
+   $(document).ready(function(){
+   ("#module").change(function(){
+	    var categoryId = $(this).val();
+	    $.ajax({
+	        type: 'GET',
+	        url: "/matieres/loadMatiereByModule/" + categoryId,
+	        contentType:"application/json; charset=utf-8"
+	        dataType:"json",
+	        success: function(data){
+	            var slctSubcat=$('#matiere'), option="";
+	            slctSubcat.empty();
+	            for(var i=0; i<data.length; i++){
+	                option = option + "<option value='"+data[i].id + "'>"+data[i].matierename + "</option>";
+	            }
+	            slctSubcat.append(option);
+	        },
+	        error:function(){
+	            alert("error");
+	        }
+
+	    });
+	});
+   });
+  
+   

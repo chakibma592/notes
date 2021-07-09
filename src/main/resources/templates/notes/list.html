@@ -1,0 +1,209 @@
+<!--/* Thymeleaf templating engine, Each token will be replaced by their respective titles in the resulting page. */-->
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+	<title>user</title>
+	
+</head>
+<body  class="sidebar-collapse skin-blue hold-transition fuelux sidebar-mini">
+<div layout:fragment="breadcrumb">
+    <h1>Tableau des notes</h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active">Tableau des notes</li>
+    </ol>
+</div>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                
+                   
+
+				<!-- Barre de recherche  -->
+				
+     
+                </div>
+
+
+                <!-- /.box-header -->
+                
+                    <div class="form-group ">
+								<label for="kode">Choisir le semestre</label> <select id="semestre"
+									class="selectpicker form-control" data-live-search="true"
+									data-size="5" title="Selectionnez ..." th:field="*{semestre}"
+									required>
+									<option th:each="p : ${semestre}" th:value="${p.id}"
+										th:text="${p.semestrename}"></option>
+								</select>
+				</div>
+						<div class="form-group ">
+								<label for="promotion">Choisir la promotion</label> <select id="promotion"
+									class="selectpicker form-control" data-live-search="true"
+									data-size="5" title="Selectionnez ..." th:field="*{promotion}"
+									required>
+									<option th:each="p : ${promotion}" th:value="${p.id}"
+										th:text="${p.promotionname}">Promotion</option>
+								</select>
+						</div>
+						<div class="form-group ">
+								<label for="filiere">Choisir la filière</label> <select id="filiere" onchange="getStudent()"
+									class="selectpicker form-control" data-live-search="true"
+									data-size="5" title="Selectionnez ..." th:field="*{filiere}"
+									required>
+									<option th:each="p : ${filiere}" th:value="${p.id}"
+										th:text="${p.filierename}">Filiere</option>
+								</select>
+						</div>
+
+							<div class="form-group ">
+								<label for="user">Choisir l'etudiant</label> 
+								<select
+									id ="student" onchange="getNote()" class="selectpicker form-control" data-live-search="true"
+									data-size="10" title="Selectionnez ..." th:field="*{student}"
+									required>
+									</select>
+						</div>
+
+<script >
+function getStudent()
+{
+	var promotionId =  $("#promotion").val()
+	var filiereId =  $("#filiere").val()
+	$.ajax({
+        url: '/students/loadStudentByFiliereAndPromotion/'+filiereId+'/'+promotionId,
+        type: 'GET',
+        contentType : "application/json",
+        dataType : 'json',
+        async: false,
+        cache: false,
+        success: function (data) {
+        	
+        	var slctSubcat=$('#student'), option="";
+            slctSubcat.empty();
+            for(var i=0; i<data.length; i++){
+            	
+                option = option + "<option value='"+data[i].id + "'>"+data[i].codemassar+": "+data[i].firstname+" " + data[i].lastname+"</option>";
+            }
+            slctSubcat.append(option);
+            $('#student').selectpicker('refresh');
+        },
+        error:function(){
+            alert("error");
+        }
+       
+	});
+		   
+	   }
+	   </script>
+ <script >
+function getNote()
+{
+	var semestreId =  $("#semestre").val()
+	var filiereId =  $("#filiere").val()
+	var studentId =  $("#student").val()
+	var promotionId =  $("#promotion").val()
+	$.ajax({
+        url: '/notes/loadnote/'+filiereId+'/'+semestreId+'/'+studentId+'/'+promotionId,
+        type: 'GET',
+        contentType : "application/json",
+        dataType : 'json',
+        async: false,
+        cache: false,
+        success: function (data) {
+        	console.log(data);
+        	var slctSubcat=$('#body'), tr="";
+        	var slctdiv=$('#moyenne'), h3="";
+            slctSubcat.empty();
+            var moyenne;
+           for(var i=0; i<data.length; i++){
+            	
+                tr = tr + "<tr ><td>"+data[i].module +"</td><td>"+data[i].matiere+" </td><td>"+data[i].note+"</td> <td>"+data[i].decision+"</td></tr>";
+               moyenne=data[i].moyenne;
+            	}
+           h3=h3+"<h3> Moyenne generale : "+moyenne+"</h3>";
+           //tr = tr + "<tr ><td>Moyenne Generale</td><td>"+data[j].moyenne+" </td></tr>
+            slctSubcat.append(tr);
+            slctdiv.append(h3);
+            
+            
+        },
+        error:function(){
+            alert("error");
+        }
+       
+	});
+	
+		   
+	   }
+	   </script>
+	   <div class="box-header with-border">
+	   <div class="box-body">
+
+
+                    <div class="table-responsive">
+                        <table class="display" id="tab" >
+                        <thead>
+								<tr>
+									<th>Module</th>
+									<th>Element</th>
+									<th>Note</th>
+									<th>Decision</th>
+									
+									
+								</tr>
+                            </thead>
+                            
+                            <tbody id="body">
+                            <tr>
+                                
+                            </tr>
+                       
+                            </tbody>
+                        </table>
+                        </div>
+
+							<div class="form-group " id="moyenne">
+								
+								
+						   </div>
+                        
+                        <script>
+                      $(document).ready(function() {
+                    	    $('#tab').DataTable( {
+                    	    	dom: 'Blfrtip',
+                    	        buttons: [
+                    	        	
+                    	        	{ 
+                    	        	      extend: 'copy',
+                    	        	      text: 'Copier',
+                    	        	      extend: 'print',
+                    	        	      text: 'Imprimer',
+                    	        	      
+                    	        	   },
+                    	        	
+                    	             'csv', 'excel', 'pdf',
+                    	        ],
+                    	     "language": {
+                    	        	"sSearch": "Chercher:",
+                    	            "lengthMenu": "Afficher _MENU_ Lignes par page",
+                    	            "zeroRecords": "Liste de recherche Vide",
+                    	            "info": "Affichage page _PAGE_ de _PAGES_",
+                    	            "infoEmpty": "Liste de recherche Vide",
+                    	            "infoFiltered": "(filtré de _MAX_ total lignes)"
+                    	        } 
+                    	    } );
+                    	    
+                    	} ); 
+                   
+						</script>
+						
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+   </div></div>
+</body>
+</html>
