@@ -80,16 +80,20 @@ public class NoteController {
 	        return new ModelMap("note", note);
 	    }
 
-
 	    @PostMapping("/notes/form")
 	    public String save(@Valid @ModelAttribute("note") Note note, BindingResult errors, SessionStatus status) {
 	        if (errors.hasErrors()) {
 	        	System.err.println(errors.toString());
 	            return "notes/form";
-	        }	      
+	        }	
+	        java.util.List<Note> all = noteRepository.Exists(note.getFiliere().getId(), note.getSemestre().getId(), note.getStudent().getId(), note.getPromotion().getId(), note.getMatiere().getId());
+	        if(all.size()==0) {
 	        noteRepository.save(note);
 	        status.setComplete();
-	        return "redirect:/notes/form/";
+	        return "redirect:/notes/form/";}
+	        else {
+	        	return "redirect:\403";
+	        }
 	    }
 		@GetMapping("/listmatieres")
 		public @ResponseBody String getStates(@RequestParam Long moduleId)
